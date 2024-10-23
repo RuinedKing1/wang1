@@ -1,0 +1,36 @@
+import subprocess
+import os
+
+# Define the path to your executable and the input file
+exe_path = r"C:\Users\10163\Downloads\SolarPuttyDecrypt_v1\SolarPuttyDecrypt.exe"
+input_file = r"C:\Users\10163\Downloads\SolarPuttyDecrypt_v1\bigshit.txt"
+solar = r"C:\Users\10163\Downloads\SolarPuttyDecrypt_v1\solar.dat"
+
+# Open the file and read each line
+with open(input_file, 'r', encoding='utf-8', errors='ignore') as file:
+    lines = file.readlines()
+
+# Iterate through each line, strip whitespace, and pass it as a parameter
+for parameter in lines:
+    parameter = parameter.strip()
+
+    if parameter:  # Make sure the parameter is not empty
+        # Execute the command with the current parameter
+        command = [exe_path, solar, parameter]
+        print(f"Running command: {command}")
+
+        try:
+            # Run the executable with the current parameter
+            result = subprocess.run(command, capture_output=True, text=True)
+
+            # Check for CryptographicException in the error output
+            if "不正确的数据" in result.stdout:
+                print(f"CryptographicException detected with parameter: {parameter}. Skipping to the next one.")
+            else:
+                # If no exception, print the correct parameter
+                print(f"Correct parameter: {parameter}")
+                print("Output:", result.stdout)
+
+        except Exception as e:
+            # General exception handling, if needed
+            print(f"An error occurred: {str(e)}")
