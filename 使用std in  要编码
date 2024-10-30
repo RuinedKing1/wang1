@@ -1,0 +1,9 @@
+import sys
+import base64
+
+def encrypt(passwd):
+    encoded = base64.b64encode(passwd.encode('utf-8'))
+    print(encoded.decode('utf-8'))
+
+user_pass=sys.stdin.read()
+encrypt(user_pass)
